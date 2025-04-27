@@ -1,0 +1,5 @@
+Lista de consultas
+
+1. Execute os scripts SQL-Tables e SQL-Populate.SQL.
+2. Crie as consultas solicitadas em ConsultasIDH.txt
+

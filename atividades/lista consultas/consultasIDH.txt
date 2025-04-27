@@ -1,0 +1,13 @@
+Questões:
+
+1 - Municípios que não pertencem a região norte
+2 - Municípios que possuem o mesmo nome
+3 - Média de municípios por Região e por Estado
+4 - Município com as pessoas mais idosas
+5 - Ano em que Salvador obteve o melhor índice de Instrução
+6 - Qual o município com a melhor distribuição de renda
+7 - Quais estados possuem municípios com IDH geral maior que 0,8
+8 - Qual o maior IDH de educação por estado
+9- Relatório de Todos IDHs da Bahia de 91 e 2000, inclusive com a
+diferença entre os mesmos
+10 - Relatório comparativo entre as médias dos IDHs de MG e BA, de 2000 e 91
