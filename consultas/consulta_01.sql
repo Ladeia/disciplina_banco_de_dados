@@ -1,6 +1,7 @@
 /*1 - Municípios que não pertencem a região norte*/
 
 USE analises;
+
 SHOW TABLES;
 SELECT DISTINCT NomeMunicipio, NomeRegiao FROM municipio m
 JOIN estado e
