@@ -4,7 +4,7 @@ use analises;
 select m.NomeMunicipio, e.CodRegiao from municipio m
 join estado e on m.CodEstado = e.CodEstado
 join regiao r on e.CodRegiao = r.CodRegiao  
-where e.CodRegiao <>1;
+where r.NomeRegiao <> 'Norte';
 -- 2
 select NomeMunicipio,COUNT(*) from municipio
 group by NomeMunicipio
