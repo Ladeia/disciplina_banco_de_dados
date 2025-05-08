@@ -3,7 +3,7 @@ use analises;
 -- 1 
 select m.NomeMunicipio, e.CodRegiao from estado e
 join municipio m on e.CodEstado = m.CodEstado
-where e.CodRegiao <>2;
+where e.CodRegiao <>1;
 -- 2
 select NomeMunicipio,COUNT(*) from municipio
 group by NomeMunicipio
