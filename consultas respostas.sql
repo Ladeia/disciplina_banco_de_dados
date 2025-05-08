@@ -1,8 +1,9 @@
 -- Gustavo Mirales
 use analises;
 -- 1 
-select m.NomeMunicipio, e.CodRegiao from estado e
-join municipio m on e.CodEstado = m.CodEstado
+select m.NomeMunicipio, e.CodRegiao from municipio m
+join estado e on m.CodEstado = e.CodEstado
+join regiao r on e.CodRegiao = r.CodRegiao  
 where e.CodRegiao <>1;
 -- 2
 select NomeMunicipio,COUNT(*) from municipio
