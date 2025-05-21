@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: rest-example
+  jpa:
+    hibernate:
+      dl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: com.mysql.cj.jdbc.Driver
