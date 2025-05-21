@@ -6,7 +6,16 @@ SELECT e.NomeEstado Estado,
 m.NomeMunicipio Municipio,
 
 i91.IDH_Geral IndiceGeral_91,
-i00.IDH_Geral IndiceGeral_00
+i00.IDH_Geral IndiceGeral_00,
+  
+i91.IDH_Renda IndiceRenda_91,
+i00.IDH_Renda IndiceRenda_00,
+  
+i91.IDH_Longevidade IndiceLongevidade_91,
+i00.IDH_Longevidade IndiceLongevidade_00,
+  
+i91.IDH_Educacao IndiceEducacao_91,
+i00.IDH_Educacao IndiceEducacao_00
 
 FROM municipio m
 JOIN estado e
