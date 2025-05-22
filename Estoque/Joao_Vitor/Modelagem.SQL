@@ -6,10 +6,12 @@ use Estoque_do_Jojo;
 
 -- tabela Profissão
 
-create table Profissao(
-Id_Profissao int AUTO_INCREMENT primary key,
+create table Cargo(
+Id_Cargo int AUTO_INCREMENT primary key,
+Hierarquia varchar(200),
 Setor Varchar(200),
-Funcao varchar(200)
+Funcao varchar(200),
+
 );
 
 -- tabela Categoria
@@ -22,14 +24,14 @@ Categoria varchar(100)
 -- Tabela Usuario
 create table Usuario(
 Id_Usuario int AUTO_INCREMENT primary key,
-Nome Varchar(200),
+Nome_Usuario Varchar(200),
 CPF Varchar (11),
 Data_de_Nascimento Date,
 Email Varchar (100),
 Codigo_de_Acesso int(8),
 Senha_de_Acesso int(10),
-Id_Profissao int,
-foreign key (Id_Profissao) references Profissao(Id_Profissao)
+Id_Cargo int,
+foreign key (Id_Cargo) references Cargo(Id_Cargo)
 );
 
 -- Tabela Produto Vestuario
@@ -42,7 +44,9 @@ foreign key (Id_Categoria) references Categoria(Id_Categoria),
 Quantidade_Tamanho_P int,
 Quantidade_Tamanho_M int,
 Quantidade_Tamanho_G int,
-Preco real
+Preco real,
+Id_Usuario int,
+foreign key (Id_Usuario) references Cargo(Id_Usuario)
 );
 
 -- Tabela Produto Alimenticio
@@ -54,7 +58,9 @@ KG int,
 Id_Categoria int,
 foreign key (Id_Categoria) references Categoria(Id_Categoria), 
 Quantidade int,
-Preco real
+Preco real,
+Id_Usuario int,
+foreign key (Id_Usuario) references Cargo(Id_Usuario)
 );
 
 -- Tabela Produto Eletronico
@@ -66,7 +72,9 @@ Peso int,
 Id_Categoria int,
 foreign key (Id_Categoria) references Categoria(Id_Categoria),  
 Quantidade int,
-Preco real
+Preco real,
+Id_Usuario int,
+foreign key (Id_Usuario) references Cargo(Id_Usuario)
 );
 
 -- tabela Historico de Acoes: Acoes relizadas nos produtos
@@ -83,7 +91,7 @@ Data timestamp default current_timestamp
 
 
     																			-- tabela vestuario  ----------------------------------------------------------------------------------------- 
-												-- inserir
+												-- inserir									
 create trigger after_insert_produto_vestuario
 after insert on Produto_Vestuario
 for each row
