@@ -10,8 +10,7 @@ create table Cargo(
 Id_Cargo int AUTO_INCREMENT primary key,
 Hierarquia varchar(200),
 Setor Varchar(200),
-Funcao varchar(200),
-
+Funcao varchar(200)
 );
 
 -- tabela Categoria
@@ -87,10 +86,8 @@ acao varchar(1000),
 Data timestamp default current_timestamp
 );
 
--- trigger usado para criar um gatinho no sistema onde no meu codigo se aplica em caso o usuario realizar X acao vai salva que acao ele realizou no sitema e de que produto se trata
 
-
-    																			-- tabela vestuario  ----------------------------------------------------------------------------------------- 
+   																			-- tabela vestuario  ----------------------------------------------------------------------------------------- 
 												-- inserir									
 create trigger after_insert_produto_vestuario
 after insert on Produto_Vestuario
@@ -201,4 +198,106 @@ begin
     end$$
     DELIMITER ;
 
+
+
+-- tabela Historico de Solicitacoes: Solicitacoes relizadas no do funcionario para o seu superior
+create table Historico_de_Solicitacoes(
+Id_Historico_de_Solicitacoes int AUTO_INCREMENT primary key,
+Nome_Usuario Varchar(200),
+Codigo_de_Acesso int(8),
+Status_Da_Solicitacao varchar(200),
+Solicitacao varchar(10000),
+Data timestamp default current_timestamp
+);
+
+CREATE TABLE Solicitacoes_Pendentes (
+    Id_Solicitacao INT AUTO_INCREMENT PRIMARY KEY,
+    Id_Usuario INT,
+    Solicitacao VARCHAR(10000),
+    FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id_Usuario)
+);
+
+
+--  trigger usado para criar um gatinho onde a solicitacao em pendente vai para o historico de solicitacoes o seu lider faz a aprovacao ou negacao da solcitacao
+DELIMITER $$
+
+CREATE TRIGGER after_insert_solicitacao
+AFTER INSERT ON Solicitacoes_Pendentes
+FOR EACH ROW
+BEGIN
+    DECLARE v_Nome_Usuario VARCHAR(200);
+    DECLARE v_Codigo_de_Acesso INT;
+
+-- Pegando as informações do usuário que fez a solicitação
+    SELECT Nome_Usuario, Codigo_de_Acesso
+    INTO v_Nome_Usuario, v_Codigo_de_Acesso
+    FROM Usuario
+    WHERE Id_Usuario = NEW.Id_Usuario;
+
+-- Inserindo da tabela de histórico de solicitações
+    INSERT INTO Historico_de_Solicitacoes (
+        Nome_Usuario,
+        Codigo_de_Acesso,
+        Status_Da_Solicitacao,
+        Solicitacao
+    ) VALUES (
+        v_Nome_Usuario,
+        v_Codigo_de_Acesso,
+        'Pendente',
+        NEW.Solicitacao
+    );
+END$$
+
+DELIMITER ;
+
+
+-- tabela de avaria
+
+CREATE TABLE Avaria_de_Produto (
+    Id_Avaria INT AUTO_INCREMENT PRIMARY KEY,
+    Tipo_Produto VARCHAR(50),               -- 'Vestuário', 'Alimentício', 'Eletrônico'
+    Id_Produto INT,                         -- Id do produto na respectiva tabela
+    Nome_Produto VARCHAR(200),
+    Id_Categoria INT,
+    Descricao_Avaria VARCHAR(1000),
+    Quantidade_Avariada INT,
+    Id_Usuario INT,
+    Data_Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (Id_Categoria) REFERENCES Categoria(Id_Categoria),
+    FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id_Usuario)
+);
+
+DELIMITER $$
+
+CREATE TRIGGER after_insert_avaria
+AFTER INSERT ON Avaria_de_Produto
+FOR EACH ROW
+BEGIN
+    DECLARE v_Nome_Usuario VARCHAR(200);
+    DECLARE v_Codigo_de_Acesso INT;
+
+    -- Pega dados do usuário
+    SELECT Nome_Usuario, Codigo_de_Acesso
+    INTO v_Nome_Usuario, v_Codigo_de_Acesso
+    FROM Usuario
+    WHERE Id_Usuario = NEW.Id_Usuario;
+
+    -- Insere na tabela de histórico de ações
+    INSERT INTO Historico_de_Acoes (
+        Nome,
+        Codigo_de_Acesso,
+        Modificao_ao_Produto,
+        Acao
+    ) VALUES (
+        v_Nome_Usuario,
+        v_Codigo_de_Acesso,
+        CONCAT('Avaria registrada em produto ', NEW.Tipo_Produto),
+        CONCAT('Produto: ', NEW.Nome_Produto, ' | Categoria ID: ', NEW.Id_Categoria, ' | Descrição: ', NEW.Descricao_Avaria)
+    );
+END$$
+
+DELIMITER ;
+
+ 
 -- drop database Estoque_do_Jojo;
