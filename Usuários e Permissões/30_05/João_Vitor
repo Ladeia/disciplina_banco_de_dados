@@ -1,0 +1,69 @@
+						-- Criação de Banco
+create database blog;
+						-- Usa banco
+use blog;
+						-- Criação de tabela 
+create table Autor(
+id_autor int AUTO_INCREMENT primary key,
+nome varchar(100),
+usuario_autor varchar(8),
+senha_autor varchar(100)
+);
+
+create table Postagens(
+id_postagens int AUTO_INCREMENT primary key,
+titulo varchar(100),
+texto varchar(100),
+id_autor int,
+foreign key (id_autor) references Autor(id_autor)
+);
+
+create table Visitantes(
+id_visitantes int AUTO_INCREMENT primary key,
+nome_visitantes varchar(100),
+email varchar(100)
+);
+
+create table Comentarios(
+id_comentarios int AUTO_INCREMENT primary key,
+id_visitantes int,
+id_postagens int,
+foreign key (id_visitantes) references Visitantes(id_visitantes),
+foreign key (id_postagens) references Postagens(id_postagens),
+texto varchar(10000),
+nota int,
+aprovado BOOLEAN 
+);
+
+						-- Informações do banco
+INSERT INTO Autor (nome,usuario_autor,senha_autor) VALUES 
+('Ricardo','80963425','85967412');
+
+INSERT INTO Visitantes (nome_visitantes,email) VALUES 
+('jose almeida compos ','composalmeida@gmail.com');
+
+						-- Usuarios do banco
+                        
+create user 'clebinho_admin'@'localhost' identified by 'AdmTotal123';
+create user 'joao_autor'@'localhost' identified by 'Autor698';
+create user 'maria_visitante'@'localhost' identified by 'MariaVis852';
+
+						-- clebinho_admin total 
+                        
+grant all privileges on blog.* to 'clebinho_admin'@'localhost';
+
+						-- joao_autor Postagens: Inserir, Selecionar, Apagar e Editar / Comentarios: Selecionar e Editar
+                        
+grant select, insert, update, delete on blog.Postagens to 'joao_autor'@'localhost';
+
+grant select, update on blog.Comentarios to 'joao_autor'@'localhost';
+
+						-- maria_visitante Postagens: Selecionar /Comentarios: Selecionar, Inserir, Apagar e Editar 
+                        
+grant select on blog.Postagens to 'maria_visitante'@'localhost';
+
+grant select, insert, delete, update on blog.Comentarios to 'maria_visitante'@'localhost';
+
+
+
+-- drop database blog;
